@@ -31,7 +31,6 @@ class SortingVisualizer extends SortingAlgorithms {
     render() {
         return (
             <div>
-                <TopNavBar parent={this}/>
                 {this.state.arr.map((h, index) => {
                     return <div key={index} className="array-bar" style={{height: h+"px"}}></div>;
                 })}
@@ -51,33 +50,6 @@ class SortingVisualizer extends SortingAlgorithms {
         );
     }
 }
-
-class TopNavBar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-                <a class="navbar-brand bg-primary">Sorting Visualizer</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse bg-danger" id="navbarNav">
-                    <ul class="navbar-nav d-inline">
-                        <li class="nav-item active d-inline">
-                        </li>
-                    </ul>
-                </div>
-
-            </nav>
-        );
-    }
-}
-
 
 
 

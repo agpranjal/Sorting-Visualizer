@@ -10,3 +10,11 @@ body {
     margin: 30px 1px;
     display: inline-block;
 }
+
+button {
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    margin: 5px;
+    border-radius: 5px;
+}
