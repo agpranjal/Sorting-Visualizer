@@ -1,0 +1,12 @@
+body {
+    background-color: #dddddd;
+    text-align: center;
+    margin: 0px;
+}
+
+.array-bar {
+    width: 2px;
+    background-color: blue;
+    margin: 30px 1px;
+    display: inline-block;
+}
