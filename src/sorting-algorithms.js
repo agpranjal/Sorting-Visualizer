@@ -32,12 +32,16 @@ class SortingAlgorithms extends React.Component {
 
     insertionSort = () => {
         let d = document.getElementsByClassName("array-bar");
-        let arr = this.state.arr;
+        let arr = [...d];
 
         for (let i=0; i<arr.length-1; i++) {
             for (let j=i+1; j>0; j--) {
-                if (arr[j] > arr[j-1])
+                let h1 = parseFloat(arr[j].style.height);
+                let h2 = parseFloat(arr[j-1].style.height);
+
+                if (h1 > h2)
                     break;
+
                 [arr[j], arr[j-1]] = [arr[j-1], arr[j]];
 
                 setTimeout(() => {
