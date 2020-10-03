@@ -34,18 +34,19 @@ class SortingAlgorithms extends React.Component {
         let d = document.getElementsByClassName("array-bar");
         let arr = this.state.arr;
 
-        let i = 1;
-        while (i < arr.length) {
-            let j = i-1;
-            let x = arr[i];
+        for (let i=0; i<arr.length-1; i++) {
+            for (let j=i+1; j>0; j--) {
+                if (arr[j] > arr[j-1])
+                    break;
+                [arr[j], arr[j-1]] = [arr[j-1], arr[j]];
 
-            while (j >= 0 && arr[j] > x) {
-                arr[j+1] = arr[j];
-                j -= 1;
+                setTimeout(() => {
+                    let x = d[j].style.height;
+                    d[j].style.height = d[j-1].style.height;
+                    d[j-1].style.height = x;
+                }, i*this.ANIMATION_SPEED_MS);
             }
 
-            arr[j+1] = x;
-            i += 1;
         }
     }
 
