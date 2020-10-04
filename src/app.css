@@ -1,13 +1,18 @@
 body {
-    background-color: #dddddd;
+    background-color: #fff;
     text-align: center;
     margin: 0px;
 }
 
+#array-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .array-bar {
-    width: 2px;
     background-color: blue;
-    margin: 30px 1px;
+    margin: 1px;
     display: inline-block;
 }
 
