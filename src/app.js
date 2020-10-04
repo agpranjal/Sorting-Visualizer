@@ -6,11 +6,12 @@ class SortingVisualizer extends SortingAlgorithms {
     constructor(props) {
         super(props);
         this.state = {arr:[]};
-        this.ARRAY_LENGTH = 400;
+        this.ARRAY_LENGTH = 200;
         this.MIN_HEIGHT = 100;
         this.MAX_HEIGHT = 500;
-        this.ANIMATION_SPEED_MS = 3;
-        this.arrayBarWidth = 2*window.innerWidth/1600; // calculate width of array bars based on avaiable width
+        this.ANIMATION_SPEED_MS = 5;
+        //this.arrayBarWidth = 2*window.innerWidth/1600; // calculate width of array bars based on avaiable width
+        this.arrayBarWidth = 5;
     }
 
     componentDidMount() {
@@ -119,13 +120,19 @@ class SortingVisualizer extends SortingAlgorithms {
 
                 // Set the height
                 d[index1].style.height = `${value1}px`;
+                if (index2 != -1)
+                    d[index2].style.height = `${value2}px`;
 
                 // Set the color
                 d[index1].style.backgroundColor = "red";
+                if (index2 != -1)
+                    d[index2].style.height = "red";
 
                 // Change color back to normal after an interval
                 setTimeout(() => {
                     d[index1].style.backgroundColor = "blue";
+                    if (index2 != -1)
+                        d[index2].style.height = "red";
                 }, this.ANIMATION_SPEED_MS);
 
             }, i*this.ANIMATION_SPEED_MS);
@@ -164,6 +171,34 @@ class SortingVisualizer extends SortingAlgorithms {
             }, i*this.ANIMATION_SPEED_MS);
 
         }
+    }
+
+    quickSort = () => {
+        let animations = this.getQuickSortAnimations();
+        let d = document.getElementsByClassName("array-bar");
+
+        for (let i=0; i<animations.length; i++) {
+            setTimeout(() => {
+                let [value1, index1, value2, index2] = animations[i];
+
+                // Set the height
+                d[index1].style.height = `${value1}px`;
+                d[index2].style.height = `${value2}px`;
+
+                // Set the color
+                d[index1].style.backgroundColor = "red";
+                d[index2].style.backgroundColor = "red";
+
+                // Change color back to normal after an interval
+                setTimeout(() => {
+                    d[index1].style.backgroundColor = "blue";
+                    d[index2].style.backgroundColor = "blue";
+                }, this.ANIMATION_SPEED_MS);
+
+            }, i*this.ANIMATION_SPEED_MS);
+
+        }
+
     }
 
 

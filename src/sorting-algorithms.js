@@ -8,16 +8,16 @@ class SortingAlgorithms extends React.Component {
     }
 
     getBubbleSortAnimations = () => {
-        let t = this.state.arr;
+        let arr = this.state.arr;
         let animations = [];
 
-        for (let i=0; i<t.length; i++) {
-            for (let j=0; j<t.length-1-i; j++) {
-                if (t[j] > t[j+1]) 
-                    [t[j], t[j+1]] = [t[j+1], t[j]];
+        for (let i=0; i<arr.length; i++) {
+            for (let j=0; j<arr.length-1-i; j++) {
+                if (arr[j] > arr[j+1]) 
+                    [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
                 
-                // Format: [value1, index1, value2, index2]
-                animations.push([t[j], j, t[j+1], j+1]);
+                // Formaarr: [value1, index1, value2, index2]
+                animations.push([arr[j], j, arr[j+1], j+1]);
             }
         }
 
@@ -54,7 +54,9 @@ class SortingAlgorithms extends React.Component {
                 if (arr[j] < min) {
                     min = arr[j];
                     u = j;
-                    animations.push([arr[i], i, arr[u], u]);
+                    animations.push([arr[j], j, arr[u], u]);
+                } else {
+                    animations.push([arr[j], j, arr[i], i]);
                 }
             }
 
@@ -76,7 +78,6 @@ class SortingAlgorithms extends React.Component {
         // merge process
         let N = (UB-LB)/2;
         let temp = [];
-        let d = document.getElementsByClassName("array-bar");
 
         // populate temp with null (N times)
         for (let i=0; i<N; i++)
@@ -86,13 +87,13 @@ class SortingAlgorithms extends React.Component {
         while (i <= mid && j <= UB) {
             if (arr[i] < arr[j]) {
                 temp[k] = arr[i];
-
+                animations.push([arr[i], i, arr[j], j]);
                 i++;
                 k++;
 
             } else {
                 temp[k] = arr[j];
-
+                animations.push([arr[j], j, arr[i], i]);
                 k++;
                 j++;
             }
@@ -101,13 +102,14 @@ class SortingAlgorithms extends React.Component {
 
         while (i <= mid) {
             temp[k] = arr[i];
-
+            animations.push([arr[i], i, -1, -1]);
             i++;
             k++;
         }
 
         while (j <= UB) {
             temp[k] = arr[j];
+            animations.push([arr[j], j, -1, -1]);
             k++;
             j++;
         }
@@ -149,7 +151,8 @@ class SortingAlgorithms extends React.Component {
         animations.push([arr[1], 1, arr[n], n]);
         n--;
 
-        let i=1, j=2;
+        let i = 1;
+        let j = 2;
 
         while (j <= n) {
             if (j+1 <= n && arr[j] < arr[j+1])
@@ -180,7 +183,52 @@ class SortingAlgorithms extends React.Component {
             i--;
         }
 
+        arr.shift();
         return animations;
+    }
+
+    partition = (arr, i, j, animations) => {
+        let pivot = i;
+
+        while (i < j) {
+            while (i < arr.length && arr[i] <= arr[pivot]) {
+                animations.push([arr[i], i, arr[pivot], pivot]);
+                i++;
+            }
+
+            while (arr[j] > arr[pivot]) {
+                animations.push([arr[j], j, arr[pivot], pivot]);
+                j--;
+            }
+
+            if (i < j) {
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+                animations.push([arr[i], i, arr[j], j]);
+            }
+        }
+
+        [arr[j], arr[pivot]] = [arr[pivot], arr[j]];
+        animations.push([arr[j], j, arr[pivot], pivot]);
+        return j;
+
+    }
+
+
+    quickSortAndPartition = (arr, LB, UB, animations) => {
+        if (LB <= UB) {
+            let j = this.partition(arr, LB, UB, animations);
+            this.quickSortAndPartition(arr, LB, j-1, animations);
+            this.quickSortAndPartition(arr, j+1, UB, animations);
+        }
+    }
+
+    getQuickSortAnimations = () => {
+        let animations = [];
+        let arr = this.state.arr;
+        this.quickSortAndPartition(arr, 0, arr.length-1, animations);
+
+        return animations;
+
     }
 }
 
