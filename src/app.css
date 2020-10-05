@@ -25,3 +25,15 @@ button {
     outline: none;
     border-radius: 5px;
 }
+
+#status-bar {
+    margin: 10px;
+    color: white;
+    font-size: 1em;
+    text-align: left;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}

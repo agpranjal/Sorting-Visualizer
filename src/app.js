@@ -5,7 +5,11 @@ import {SortingAlgorithms} from "./sorting-algorithms";
 class SortingVisualizer extends SortingAlgorithms {
     constructor(props) {
         super(props);
-        this.state = {arr:[], disabled:false};
+        this.state = {arr:[],
+            buttonsDisabled:false,
+            timer: 0,
+            algorithm: null,
+        };
 
         this.MIN_HEIGHT = 100;
         this.MAX_HEIGHT = 500;
@@ -47,7 +51,15 @@ class SortingVisualizer extends SortingAlgorithms {
         let oscillator = this.createOscillator();
         oscillator.start();
 
-        this.setState({disabled: true});
+        // disable all buttons until the animation finishes
+        this.setState({buttonsDisabled: true});
+
+        // start the timer
+        this.setState({timer: 0});
+        let timerId = setInterval(() => {
+            let x = this.state.timer;
+            this.setState({timer: x+1});
+        }, 1*1000);
 
         for (let i=0; i<animations.length; i++) {
             setTimeout(() => {
@@ -55,7 +67,11 @@ class SortingVisualizer extends SortingAlgorithms {
 
                 if (i == animations.length-1) {
                     oscillator.stop();
-                    this.setState({disabled: false});
+                    // animation is finished, enable the buttons now
+                    this.setState({buttonsDisabled: false});
+
+                    // stop the timer
+                    clearInterval(timerId);
                 }
 
                 // Only for heap sort (to prevent out of bounds error)
@@ -93,31 +109,37 @@ class SortingVisualizer extends SortingAlgorithms {
 
     bubbleSort = () => {
         let animations = this.getBubbleSortAnimations();
+        this.setState({algorithm: "Bubble Sort"})
         this.showAnimations(animations);
     }
 
     insertionSort = () => {
         let animations = this.getInsertionSortAnimations();
+        this.setState({algorithm: "Insertion Sort"})
         this.showAnimations(animations);
     }
 
     selectionSort = () => {
         let animations = this.getSelectionSortAnimations();
+        this.setState({algorithm: "Selection Sort"})
         this.showAnimations(animations);
     }
 
     mergeSort = () => {
         let animations = this.getMergeSortAnimations();
+        this.setState({algorithm: "Merge Sort"})
         this.showAnimations(animations);
     }
 
     heapSort = () => {
         let animations = this.getHeapSortAnimations();
+        this.setState({algorithm: "Heap Sort"})
         this.showAnimations(animations, true);
     }
 
     quickSort = () => {
         let animations = this.getQuickSortAnimations();
+        this.setState({algorithm: "Quick Sort"})
         this.showAnimations(animations);
     }
 
@@ -131,13 +153,20 @@ class SortingVisualizer extends SortingAlgorithms {
                     })}
                 </div>
                 <div>
-                    <br/><button disabled={this.state.disabled} type="button" onClick={this.resetArray}>Regenerate array</button><br/>
-                    <button disabled={this.state.disabled} type="button" onClick={this.mergeSort}>Merge Sort</button>
-                    <button disabled={this.state.disabled} type="button" onClick={this.selectionSort}>Selection Sort</button>
-                    <button disabled={this.state.disabled} type="button" onClick={this.heapSort}>Heap Sort</button>
-                    <button disabled={this.state.disabled} type="button" onClick={this.bubbleSort}>Bubble Sort</button>
-                    <button disabled={this.state.disabled} type="button" onClick={this.quickSort}>Quick Sort</button>
-                    <button disabled={this.state.disabled} type="button" onClick={this.insertionSort}>Insertion Sort</button>
+                    <br/><button disabled={this.state.buttonsDisabled} type="button" onClick={this.resetArray}>Regenerate array</button><br/>
+                    <button disabled={this.state.buttonsDisabled} type="button" onClick={this.mergeSort}>Merge Sort</button>
+                    <button disabled={this.state.buttonsDisabled} type="button" onClick={this.selectionSort}>Selection Sort</button>
+                    <button disabled={this.state.buttonsDisabled} type="button" onClick={this.heapSort}>Heap Sort</button>
+                    <button disabled={this.state.buttonsDisabled} type="button" onClick={this.bubbleSort}>Bubble Sort</button>
+                    <button disabled={this.state.buttonsDisabled} type="button" onClick={this.quickSort}>Quick Sort</button>
+                    <button disabled={this.state.buttonsDisabled} type="button" onClick={this.insertionSort}>Insertion Sort</button>
+                </div>
+
+                <div id="status-bar">
+                    <p>Algorithm: {this.state.algorithm}</p>
+                    <p>Time taken: {this.state.timer} s </p>
+                    <p>Animation delay: {this.ANIMATION_SPEED_MS} ms</p>
+                    <p>Array length: {this.ARRAY_LENGTH}</p>
                 </div>
 
             </div>

@@ -8,7 +8,7 @@ class SortingAlgorithms extends React.Component {
     }
 
     getBubbleSortAnimations = () => {
-        let arr = this.state.arr;
+        let arr = this.state.arr.slice();
         let animations = [];
 
         for (let i=0; i<arr.length; i++) {
@@ -26,7 +26,7 @@ class SortingAlgorithms extends React.Component {
 
 
     getInsertionSortAnimations = () => {
-        let arr = this.state.arr;
+        let arr = this.state.arr.slice();
         let animations = [];
 
         for (let i=0; i<arr.length-1; i++) {
@@ -43,7 +43,7 @@ class SortingAlgorithms extends React.Component {
     }
 
     getSelectionSortAnimations = () => {
-        let arr = this.state.arr;
+        let arr = this.state.arr.slice();
         let animations = [];
 
         for (let i=0; i<arr.length-1; i++) {
@@ -122,7 +122,7 @@ class SortingAlgorithms extends React.Component {
     }
 
     getMergeSortAnimations = () => {
-        let arr = this.state.arr;
+        let arr = this.state.arr.slice();
         let animations = [];
         this.mergeSortAndMerge(arr, 0, arr.length-1, animations);
 
@@ -172,7 +172,7 @@ class SortingAlgorithms extends React.Component {
 
     getHeapSortAnimations = () => {
         let animations = [];
-        let arr =  this.state.arr;
+        let arr =  this.state.arr.slice();
         arr.unshift(null);
         this.createHeap(arr, animations);
 
@@ -224,7 +224,7 @@ class SortingAlgorithms extends React.Component {
 
     getQuickSortAnimations = () => {
         let animations = [];
-        let arr = this.state.arr;
+        let arr = this.state.arr.slice();
         this.quickSortAndPartition(arr, 0, arr.length-1, animations);
 
         return animations;
