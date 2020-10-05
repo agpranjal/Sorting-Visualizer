@@ -5,7 +5,7 @@ import {SortingAlgorithms} from "./sorting-algorithms";
 class SortingVisualizer extends SortingAlgorithms {
     constructor(props) {
         super(props);
-        this.state = {arr:[]};
+        this.state = {arr:[], disabled:false};
 
         this.MIN_HEIGHT = 100;
         this.MAX_HEIGHT = 500;
@@ -13,8 +13,6 @@ class SortingVisualizer extends SortingAlgorithms {
         this.ARRAY_LENGTH = 1000;
         this.K = 1 * 1000;
         this.arrayBarWidth = this.K / this.ARRAY_LENGTH;
-
-
     }
 
     createOscillator = ()=> {
@@ -49,12 +47,16 @@ class SortingVisualizer extends SortingAlgorithms {
         let oscillator = this.createOscillator();
         oscillator.start();
 
+        this.setState({disabled: true});
+
         for (let i=0; i<animations.length; i++) {
             setTimeout(() => {
                 let [value1, index1, value2, index2] = animations[i];
 
-                if (i == animations.length-1)
+                if (i == animations.length-1) {
                     oscillator.stop();
+                    this.setState({disabled: false});
+                }
 
                 // Only for heap sort (to prevent out of bounds error)
                 if (isHeap) {
@@ -74,8 +76,8 @@ class SortingVisualizer extends SortingAlgorithms {
 
                 // Change color back to normal after an interval
                 setTimeout(() => {
-                    d[index1].style.backgroundColor = "blue";
-                    d[index2].style.backgroundColor = "blue";
+                    d[index1].style.backgroundColor = "white";
+                    d[index2].style.backgroundColor = "white";
                 }, this.ANIMATION_SPEED_MS);
 
                 // For the sound
@@ -129,13 +131,13 @@ class SortingVisualizer extends SortingAlgorithms {
                     })}
                 </div>
                 <div>
-                    <br/><button type="button" onClick={this.resetArray}>Regenerate array</button><br/>
-                    <button type="button" onClick={this.mergeSort}>Merge Sort</button>
-                    <button type="button" onClick={this.selectionSort}>Selection Sort</button>
-                    <button type="button" onClick={this.heapSort}>Heap Sort</button>
-                    <button type="button" onClick={this.bubbleSort}>Bubble Sort</button>
-                    <button type="button" onClick={this.quickSort}>Quick Sort</button>
-                    <button type="button" onClick={this.insertionSort}>Insertion Sort</button>
+                    <br/><button disabled={this.state.disabled} type="button" onClick={this.resetArray}>Regenerate array</button><br/>
+                    <button disabled={this.state.disabled} type="button" onClick={this.mergeSort}>Merge Sort</button>
+                    <button disabled={this.state.disabled} type="button" onClick={this.selectionSort}>Selection Sort</button>
+                    <button disabled={this.state.disabled} type="button" onClick={this.heapSort}>Heap Sort</button>
+                    <button disabled={this.state.disabled} type="button" onClick={this.bubbleSort}>Bubble Sort</button>
+                    <button disabled={this.state.disabled} type="button" onClick={this.quickSort}>Quick Sort</button>
+                    <button disabled={this.state.disabled} type="button" onClick={this.insertionSort}>Insertion Sort</button>
                 </div>
 
             </div>
