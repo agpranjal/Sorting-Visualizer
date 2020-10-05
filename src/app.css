@@ -27,8 +27,11 @@ button {
 }
 
 #status-bar {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
     margin: 10px;
-    color: white;
+    color: red;
     font-size: 1em;
     text-align: left;
 }
@@ -36,4 +39,9 @@ button {
 p {
     margin: 0px;
     padding: 0px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
 }
