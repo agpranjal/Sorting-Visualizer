@@ -6,12 +6,13 @@ class SortingVisualizer extends SortingAlgorithms {
     constructor(props) {
         super(props);
         this.state = {arr:[]};
-        this.ARRAY_LENGTH = 200;
+
         this.MIN_HEIGHT = 100;
         this.MAX_HEIGHT = 500;
-        this.ANIMATION_SPEED_MS = 5;
-        //this.arrayBarWidth = 2*window.innerWidth/1600; // calculate width of array bars based on avaiable width
-        this.arrayBarWidth = 5;
+        this.ANIMATION_SPEED_MS = 1;
+        this.ARRAY_LENGTH = 1000;
+        this.K = 1 * 1000;
+        this.arrayBarWidth = this.K / this.ARRAY_LENGTH;
     }
 
     componentDidMount() {
@@ -150,13 +151,8 @@ class SortingVisualizer extends SortingAlgorithms {
                 index1--;
                 index2--;
 
-                try {
-                    // Set the height
-                    d[index1].style.height = `${value1}px`;
-                    d[index2].style.height = `${value2}px`;
-                } catch (err) {
-                    console.log(index1, index2, d.length);
-                }
+                d[index1].style.height = `${value1}px`;
+                d[index2].style.height = `${value2}px`;
 
                 // Set the color
                 d[index1].style.backgroundColor = "red";
