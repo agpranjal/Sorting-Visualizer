@@ -13,6 +13,20 @@ class SortingVisualizer extends SortingAlgorithms {
         this.ARRAY_LENGTH = 1000;
         this.K = 1 * 1000;
         this.arrayBarWidth = this.K / this.ARRAY_LENGTH;
+
+
+    }
+
+    createOscillator = ()=> {
+        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        let oscillator = audioCtx.createOscillator();
+
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(0, audioCtx.currentTime); // value in hertz
+        oscillator.connect(audioCtx.destination);
+
+        return oscillator;
     }
 
     componentDidMount() {
@@ -30,17 +44,29 @@ class SortingVisualizer extends SortingAlgorithms {
     }
 
 
-    bubbleSort = () => {
-        let animations = this.getBubbleSortAnimations();
+    showAnimations = (animations, isHeap=false) => {
         let d = document.getElementsByClassName("array-bar");
+        let oscillator = this.createOscillator();
+        oscillator.start();
 
         for (let i=0; i<animations.length; i++) {
             setTimeout(() => {
                 let [value1, index1, value2, index2] = animations[i];
 
+                if (i == animations.length-1)
+                    oscillator.stop();
+
+                // Only for heap sort (to prevent out of bounds error)
+                if (isHeap) {
+                    index1--;
+                    index2--
+                }
+
                 // Set the height
                 d[index1].style.height = `${value1}px`;
                 d[index2].style.height = `${value2}px`;
+
+                oscillator.frequency.value = index1;
 
                 // Set the color
                 d[index1].style.backgroundColor = "red";
@@ -52,149 +78,45 @@ class SortingVisualizer extends SortingAlgorithms {
                     d[index2].style.backgroundColor = "blue";
                 }, this.ANIMATION_SPEED_MS);
 
+                // For the sound
+                setTimeout(() => {
+                    oscillator.frequency.value = index2;
+                }, i);
+
             }, i*this.ANIMATION_SPEED_MS);
 
         }
+
+    }
+
+    bubbleSort = () => {
+        let animations = this.getBubbleSortAnimations();
+        this.showAnimations(animations);
     }
 
     insertionSort = () => {
         let animations = this.getInsertionSortAnimations();
-        let d = document.getElementsByClassName("array-bar");
-
-        for (let i=0; i<animations.length; i++) {
-            setTimeout(() => {
-                let [value1, index1, value2, index2] = animations[i];
-
-                // Set the height
-                d[index1].style.height = `${value1}px`;
-                d[index2].style.height = `${value2}px`;
-
-                // Set the color
-                d[index1].style.backgroundColor = "red";
-                d[index2].style.backgroundColor = "red";
-
-                // Change color back to normal
-                setTimeout(() => {
-                    d[index1].style.backgroundColor = "blue";
-                    d[index2].style.backgroundColor = "blue";
-                }, this.ANIMATION_SPEED_MS);
-
-            }, i*this.ANIMATION_SPEED_MS);
-
-        }
+        this.showAnimations(animations);
     }
 
     selectionSort = () => {
         let animations = this.getSelectionSortAnimations();
-        let d = document.getElementsByClassName("array-bar");
-
-        for (let i=0; i<animations.length; i++) {
-            setTimeout(() => {
-                let [value1, index1, value2, index2] = animations[i];
-
-                // Set the height
-                d[index1].style.height = `${value1}px`;
-                d[index2].style.height = `${value2}px`;
-
-                // Set the color
-                d[index1].style.backgroundColor = "red";
-                d[index2].style.backgroundColor = "red";
-
-                // Change color back to normal after an interval
-                setTimeout(() => {
-                    d[index1].style.backgroundColor = "blue";
-                    d[index2].style.backgroundColor = "blue";
-                }, this.ANIMATION_SPEED_MS);
-
-            }, i*this.ANIMATION_SPEED_MS);
-
-        }
+        this.showAnimations(animations);
     }
 
     mergeSort = () => {
         let animations = this.getMergeSortAnimations();
-        let d = document.getElementsByClassName("array-bar");
-
-        for (let i=0; i<animations.length; i++) {
-            setTimeout(() => {
-                let [value1, index1, value2, index2] = animations[i];
-
-                // Set the height
-                d[index1].style.height = `${value1}px`;
-                if (index2 != -1)
-                    d[index2].style.height = `${value2}px`;
-
-                // Set the color
-                d[index1].style.backgroundColor = "red";
-                if (index2 != -1)
-                    d[index2].style.height = "red";
-
-                // Change color back to normal after an interval
-                setTimeout(() => {
-                    d[index1].style.backgroundColor = "blue";
-                    if (index2 != -1)
-                        d[index2].style.height = "red";
-                }, this.ANIMATION_SPEED_MS);
-
-            }, i*this.ANIMATION_SPEED_MS);
-
-        }
+        this.showAnimations(animations);
     }
 
     heapSort = () => {
         let animations = this.getHeapSortAnimations();
-        let d = document.getElementsByClassName("array-bar");
-
-        for (let i=0; i<animations.length; i++) {
-            setTimeout(() => {
-                let [value1, index1, value2, index2] = animations[i];
-                index1--;
-                index2--;
-
-                d[index1].style.height = `${value1}px`;
-                d[index2].style.height = `${value2}px`;
-
-                // Set the color
-                d[index1].style.backgroundColor = "red";
-                d[index2].style.backgroundColor = "red";
-
-                // Change color back to normal after an interval
-                setTimeout(() => {
-                    d[index1].style.backgroundColor = "blue";
-                    d[index2].style.backgroundColor = "blue";
-                }, this.ANIMATION_SPEED_MS);
-
-            }, i*this.ANIMATION_SPEED_MS);
-
-        }
+        this.showAnimations(animations, true);
     }
 
     quickSort = () => {
         let animations = this.getQuickSortAnimations();
-        let d = document.getElementsByClassName("array-bar");
-
-        for (let i=0; i<animations.length; i++) {
-            setTimeout(() => {
-                let [value1, index1, value2, index2] = animations[i];
-
-                // Set the height
-                d[index1].style.height = `${value1}px`;
-                d[index2].style.height = `${value2}px`;
-
-                // Set the color
-                d[index1].style.backgroundColor = "red";
-                d[index2].style.backgroundColor = "red";
-
-                // Change color back to normal after an interval
-                setTimeout(() => {
-                    d[index1].style.backgroundColor = "blue";
-                    d[index2].style.backgroundColor = "blue";
-                }, this.ANIMATION_SPEED_MS);
-
-            }, i*this.ANIMATION_SPEED_MS);
-
-        }
-
+        this.showAnimations(animations);
     }
 
 

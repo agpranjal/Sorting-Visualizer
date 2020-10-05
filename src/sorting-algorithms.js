@@ -102,14 +102,14 @@ class SortingAlgorithms extends React.Component {
 
         while (i <= mid) {
             temp[k] = arr[i];
-            animations.push([arr[i], i, -1, -1]);
+            animations.push([arr[i], i, arr[i], i]);
             i++;
             k++;
         }
 
         while (j <= UB) {
             temp[k] = arr[j];
-            animations.push([arr[j], j, -1, -1]);
+            animations.push([arr[j], j, arr[i], i]);
             k++;
             j++;
         }
@@ -117,7 +117,7 @@ class SortingAlgorithms extends React.Component {
         for (let i=0; i<temp.length; i++) {
             arr[LB+i] = temp[i];
 
-            animations.push([arr[LB+i], LB+i, -1, -1]);
+            animations.push([arr[LB+i], LB+i, arr[LB+i], LB+i]);
         }
     }
 
