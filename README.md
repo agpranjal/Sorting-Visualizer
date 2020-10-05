@@ -6,6 +6,12 @@
 + Selection Sort
 + Insertion Sort
 
+![](./screenshots/initial.png)
+
+![](./screenshots/merge-sort.png)
+
+
+
 ### Install dependencies:
 Switch to "Sorting-Visualizer" directory and type: `npm install`
 
