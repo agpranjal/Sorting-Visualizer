@@ -12,8 +12,9 @@
 
 
 
-### Install dependencies:
-Switch to "Sorting-Visualizer" directory and type: `npm install`
+### Install dependencies
+### `npm install`
+Switch to "Sorting-Visualizer" directory and type the above line
 
 ### Available Scripts
 
