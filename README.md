@@ -1,4 +1,10 @@
-## Under development
+## Visualization of sorting algorithms
++ Merge Sort
++ Heap Sort
++ Quick Sort
++ Bubble Sort
++ Selection Sort
++ Insertion Sort
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
