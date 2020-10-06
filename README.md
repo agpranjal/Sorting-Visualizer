@@ -13,8 +13,8 @@
 
 
 ### Install dependencies
+Run the following command in the project directory
 ### `npm install`
-Switch to "Sorting-Visualizer" directory and type the above line
 
 ### Available Scripts
 
