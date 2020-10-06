@@ -11,14 +11,32 @@ class SortingVisualizer extends SortingAlgorithms {
             buttonsDisabled:false,
             timer: 0,
             algorithm: "null",
+            arrLength: Math.floor(80/100*window.innerWidth), // 80% of available width
+            animationSpeed: 1   // 1ms by default
         };
 
-        this.MIN_HEIGHT = 10/100*window.innerHeight; // 30% of available height
+    }
+
+    componentWillMount() {
+        this.resetArray();
+    }
+
+    componentDidMount() {
+        this.resetArray();
+    }
+
+    resetArray = () => {
+        let arr = [];
+        for (let i=0; i<this.state.arrLength; i++) {
+            let e = randomIntFromInterval(this.MIN_HEIGHT, this.MAX_HEIGHT);
+            arr.push(e);
+        }
+
+        this.setState({arr: arr, timer: 0, buttonsDisabled: false, algorithm: "null"});
+        this.MIN_HEIGHT = 10/100*window.innerHeight; // 10% of available height
         this.MAX_HEIGHT = 70/100*window.innerHeight; // 70% of avaiable height
-        this.ARRAY_LENGTH = Math.floor(80/100*window.innerWidth); // 80% of avaiable width
         this.K = 1 * 1000;
-        this.arrayBarWidth = this.K / this.ARRAY_LENGTH;
-        this.ANIMATION_SPEED_MS = 1;
+        this.arrayBarWidth = this.K / this.state.arrLength;
     }
 
     createOscillator = ()=> {
@@ -33,19 +51,6 @@ class SortingVisualizer extends SortingAlgorithms {
         return oscillator;
     }
 
-    componentDidMount() {
-        this.resetArray();
-    }
-
-    resetArray = () => {
-        let arr = [];
-        for (let i=0; i<this.ARRAY_LENGTH; i++) {
-            let e = randomIntFromInterval(this.MIN_HEIGHT, this.MAX_HEIGHT);
-            arr.push(e);
-        }
-
-        this.setState({arr: arr, timer: 0, buttonsDisabled: false, algorithm: "null"});
-    }
 
 
     showAnimations = (animations, isHeap=false) => {
@@ -96,14 +101,14 @@ class SortingVisualizer extends SortingAlgorithms {
                 setTimeout(() => {
                     d[index1].style.backgroundColor = "white";
                     d[index2].style.backgroundColor = "white";
-                }, this.ANIMATION_SPEED_MS);
+                }, this.state.animationSpeed);
 
                 // For the sound
                 setTimeout(() => {
                     oscillator.frequency.value = index2;
                 }, i);
 
-            }, i*this.ANIMATION_SPEED_MS);
+            }, i*this.state.animationSpeed);
 
         }
 
@@ -145,6 +150,15 @@ class SortingVisualizer extends SortingAlgorithms {
         this.showAnimations(animations);
     }
 
+    handleArrayLengthChange = (e) => {
+        this.setState({arrLength: e.target.value});
+        this.resetArray();
+    }
+
+    handleAnimationSpeedChange = (e) => {
+        this.setState({animationSpeed: e.target.value});
+    }
+
 
     render() {
         return (
@@ -166,8 +180,14 @@ class SortingVisualizer extends SortingAlgorithms {
                     <div id="status-bar">
                         <p>Algorithm: {this.state.algorithm}</p>
                         <p>Time taken: {this.state.timer} s </p>
-                        <p>Animation delay: {this.ANIMATION_SPEED_MS} ms</p>
-                        <p>Array length: {this.ARRAY_LENGTH}</p>
+                        <p>
+                            Animation delay: ({this.state.animationSpeed} ms)
+                            <input disabled={this.state.buttonsDisabled} onChange={this.handleAnimationSpeedChange} value={this.state.animationSpeed} type="range" min="1" max="100" />
+                        </p>
+                        <p>
+                            Array length: ({this.state.arrLength})
+                            <input disabled={this.state.buttonsDisabled} onChange={this.handleArrayLengthChange} value={this.state.arrLength} id="input-array-length" type="range" min="10" max="2000" />
+                        </p>
                     </div>
                 </div>
             </div>

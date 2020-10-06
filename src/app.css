@@ -47,3 +47,7 @@ p {
     position: absolute;
     bottom: 0px;
 }
+
+#input-array-length {
+    width: 300px;
+}
