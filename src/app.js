@@ -15,10 +15,10 @@ class SortingVisualizer extends SortingAlgorithms {
 
         this.MIN_HEIGHT = 10/100*window.innerHeight; // 30% of available height
         this.MAX_HEIGHT = 70/100*window.innerHeight; // 70% of avaiable height
-        this.ANIMATION_SPEED_MS = 1;
-        this.ARRAY_LENGTH = 1000;
+        this.ARRAY_LENGTH = Math.floor(80/100*window.innerWidth); // 80% of avaiable width
         this.K = 1 * 1000;
         this.arrayBarWidth = this.K / this.ARRAY_LENGTH;
+        this.ANIMATION_SPEED_MS = 1;
     }
 
     createOscillator = ()=> {
