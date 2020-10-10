@@ -101,7 +101,7 @@ class SortingVisualizer extends SortingAlgorithms {
                 setTimeout(() => {
                     d[index1].style.backgroundColor = "white";
                     d[index2].style.backgroundColor = "white";
-                }, i*this.state.animationSpeed);
+                }, this.state.animationSpeed);
 
                 // For the sound
                 setTimeout(() => {
