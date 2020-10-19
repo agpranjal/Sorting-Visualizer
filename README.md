@@ -6,12 +6,6 @@
 + Selection Sort
 + Insertion Sort
 
-![](./screenshots/initial.png)
-
-![](./screenshots/merge-sort.png)
-
-
-
 ### Install dependencies
 Run the following command in the project directory
 ### `npm install`
@@ -82,3 +76,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+---
+## Screenshots
+
+![](./screenshots/initial.png)
+
+![](./screenshots/merge-sort.png)
+
