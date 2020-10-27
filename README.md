@@ -6,6 +6,8 @@
 + Selection Sort
 + Insertion Sort
 
+#### Test it here: [https://ag-pranjal-sorting-visualizer.herokuapp.com/](https://ag-pranjal-sorting-visualizer.herokuapp.com/)
+
 ### Install dependencies
 Run the following command in the project directory
 ### `npm install`
