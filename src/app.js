@@ -68,6 +68,11 @@ class SortingVisualizer extends SortingAlgorithms {
             this.setState({timer: x+1});
         }, 1*1000);
 
+        // Sorted array. Used for coloring elements in their correct position to green
+        let sortedArray = this.state.arr.slice().sort((a, b) => {
+            return a - b;
+        });
+
         for (let i=0; i<animations.length; i++) {
             setTimeout(() => {
                 let [value1, index1, value2, index2] = animations[i];
@@ -91,7 +96,7 @@ class SortingVisualizer extends SortingAlgorithms {
                 d[index1].style.height = `${value1}px`;
                 d[index2].style.height = `${value2}px`;
 
-                oscillator.frequency.value = index1;
+                oscillator.frequency.value = value1;
 
                 // Set the color
                 d[index1].style.backgroundColor = "red";
@@ -101,11 +106,19 @@ class SortingVisualizer extends SortingAlgorithms {
                 setTimeout(() => {
                     d[index1].style.backgroundColor = "white";
                     d[index2].style.backgroundColor = "white";
+
+                    // if the element is in its sorted position, color it green
+                    if (sortedArray[index2] == value2)
+                        d[index2].style.backgroundColor = "#7CFC00";
+
+                    if (sortedArray[index1] == value1)
+                        d[index1].style.backgroundColor = "#7CFC00";
+
                 }, this.state.animationSpeed);
 
                 // For the sound
                 setTimeout(() => {
-                    oscillator.frequency.value = index2;
+                    oscillator.frequency.value = value2;
                 }, i);
 
             }, i*this.state.animationSpeed);
