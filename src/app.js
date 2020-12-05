@@ -7,6 +7,7 @@ class SortingVisualizer extends SortingAlgorithms {
         super(props);
 
         this.state = {
+            displayAudioWarning: true,
             arr:[],
             buttonsDisabled:false,
             timer: 0,
@@ -37,23 +38,44 @@ class SortingVisualizer extends SortingAlgorithms {
         this.MAX_HEIGHT = 70/100*window.innerHeight; // 70% of avaiable height
         this.K = 1 * 1000;
         this.arrayBarWidth = this.K / this.state.arrLength;
+
+        // set the array bars color to white
+        let d = document.getElementsByClassName("array-bar");
+        for (let i=0; i<d.length; i++) {
+            d[i].style.backgroundColor = "white";
+        }
     }
 
     createOscillator = ()=> {
-        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        try {
+            let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        let oscillator = audioCtx.createOscillator();
+            let oscillator = audioCtx.createOscillator();
 
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(0, audioCtx.currentTime); // value in hertz
-        oscillator.connect(audioCtx.destination);
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(0, audioCtx.currentTime); // value in hertz
+            oscillator.connect(audioCtx.destination);
 
-        return oscillator;
+            return oscillator;
+
+        } catch(e) {
+            alert("Audio feature is not supported by this browser");
+            this.setState({
+                displayAudioWarning: false
+            });
+        }
     }
 
 
 
     showAnimations = (animations, isHeap=false) => {
+        if (this.state.displayAudioWarning) {
+            alert("WARNING: Audio incoming !");
+            this.setState({
+                displayAudioWarning: false
+            });
+        }
+
         let d = document.getElementsByClassName("array-bar");
         let oscillator = this.createOscillator();
         oscillator.start();
@@ -96,7 +118,8 @@ class SortingVisualizer extends SortingAlgorithms {
                 d[index1].style.height = `${value1}px`;
                 d[index2].style.height = `${value2}px`;
 
-                oscillator.frequency.value = value1;
+                //oscillator.frequency.value = value1;
+                oscillator.frequency.setValueAtTime(value1, 0); // value in hertz
 
                 // Set the color
                 d[index1].style.backgroundColor = "red";
@@ -118,7 +141,8 @@ class SortingVisualizer extends SortingAlgorithms {
 
                 // For the sound
                 setTimeout(() => {
-                    oscillator.frequency.value = value2;
+                    //oscillator.frequency.value = value2;
+                    oscillator.frequency.setValueAtTime(value2, 0); // value in hertz
                 }, i);
 
             }, i*this.state.animationSpeed);
@@ -193,14 +217,16 @@ class SortingVisualizer extends SortingAlgorithms {
                     <div id="status-bar">
                         <p>Algorithm: {this.state.algorithm}</p>
                         <p>Time taken: {this.state.timer} s </p>
-                        <p>
-                            Animation delay: ({this.state.animationSpeed} ms)
-                            <input disabled={this.state.buttonsDisabled} onChange={this.handleAnimationSpeedChange} value={this.state.animationSpeed} type="range" min="1" max="100" />
-                        </p>
-                        <p>
-                            Array length: ({this.state.arrLength})
+                        <div>
+                            <p>
+                                Animation delay: ({this.state.animationSpeed} ms)
+                            </p>
+                                <input disabled={this.state.buttonsDisabled} onChange={this.handleAnimationSpeedChange} value={this.state.animationSpeed} type="range" min="1" max="100" />
+                        </div>
+                        <div>
+                            <p>Array length: ({this.state.arrLength})</p>
                             <input disabled={this.state.buttonsDisabled} onChange={this.handleArrayLengthChange} value={this.state.arrLength} id="input-array-length" type="range" min="10" max="2000" />
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
