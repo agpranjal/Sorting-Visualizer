@@ -11,7 +11,7 @@ class SortingVisualizer extends SortingAlgorithms {
             arr:[],
             buttonsDisabled:false,
             timer: 0,
-            algorithm: "null",
+            algorithm: "",
             arrLength: Math.floor(80/100*window.innerWidth), // 80% of available width
             animationSpeed: 1   // 1ms by default
         };
