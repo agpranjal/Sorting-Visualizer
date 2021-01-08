@@ -215,7 +215,7 @@ class SortingVisualizer extends SortingAlgorithms {
                     <button disabled={this.state.buttonsDisabled} type="button" onClick={this.insertionSort}>Insertion Sort</button>
 
                     <div id="status-bar">
-                        <p>Algorithm: {this.state.algorithm}</p>
+                        <p>Algorithms: {this.state.algorithm}</p>
                         <p>Time taken: {this.state.timer} s </p>
                         <div>
                             <p>
