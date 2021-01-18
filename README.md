@@ -1,3 +1,5 @@
+# Sorting-Visualizer [![Build Status](https://www.travis-ci.com/agpranjal/Sorting-Visualizer.svg?branch=master)](https://www.travis-ci.com/agpranjal/Sorting-Visualizer)
+
 ## Visualization of sorting algorithms
 + Merge Sort
 + Heap Sort
